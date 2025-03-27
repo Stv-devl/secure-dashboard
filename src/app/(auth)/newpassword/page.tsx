@@ -5,7 +5,6 @@ import Loading from '../../../componants/loading/Loading';
 import Button from '../../../componants/buttons/Button';
 import { iconsMap } from '../../../constante/iconsMap';
 import InputWithIcon from '../../../componants/form/InputWithIcon';
-import usePswBackup from '@/hooks/auth/usePswBackup';
 import useNewPassword from '@/hooks/auth/useNewPassword';
 
 /**
@@ -53,9 +52,6 @@ const NewPassword = () => {
             />
           </div>
         </div>
-        {newPasswordErrors.general && (
-          <p className="text-red-500">{newPasswordErrors.general}</p>
-        )}
         {isLoading && <Loading />}
         <div className="h-[46px] w-full ">
           <Button

@@ -57,9 +57,12 @@ const Login = () => {
               autoComplete={'current-password'}
               IconComponent={iconsMap.IconPassword}
             />
-            <p className="text-sm cursor-pointer absolute top-0.5 right-0 font-semibold text-blue-800 transition-all duration-300 hover:text-blue-500">
+            <Link
+              href="/getlink"
+              className="text-sm cursor-pointer absolute top-0.5 right-0 font-semibold text-blue-800 transition-all duration-300 hover:text-blue-500"
+            >
               Forget your password?
-            </p>
+            </Link>
           </div>
         </div>
         {loginErrors.general && (
