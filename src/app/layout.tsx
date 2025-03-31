@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Outfit, Instrument_Sans } from 'next/font/google';
+import SessionContext from '@/context/sessionsContext';
 import './globals.css';
 
 const outfit = Outfit({
@@ -25,9 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${outfit.variable} ${instrumentSans.variable} antialiased bg-white sm:bg-gray-100`}
+        className={`${outfit.variable} ${instrumentSans.variable} antialiased bg-white sm:bg-gray-100 `}
       >
-        {children}
+        <SessionContext>{children}</SessionContext>
       </body>
     </html>
   );

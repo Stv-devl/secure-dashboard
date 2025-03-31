@@ -1,6 +1,6 @@
 import { postChangePassword } from '@/service/auth/postChangePassword';
 import { newPasswordSchema } from '@/shema/changePasswordShema';
-import { FormDataNewPassword, PasswordErrorsProps } from '@/type/hookType';
+import { FormDataNewPassword, PasswordErrorsProps } from '@/types/hookType';
 import React, { FormEvent, useState } from 'react';
 import * as Yup from 'yup';
 

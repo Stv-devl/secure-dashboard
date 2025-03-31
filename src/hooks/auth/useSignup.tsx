@@ -4,7 +4,7 @@ import { FormEvent, useCallback, useState } from 'react';
 import * as Yup from 'yup';
 import { signupValidationSchema } from '../../shema/signupShema';
 import postSignup from '../../service/auth/postSignup';
-import { FormDataSignUp, UseSignUpReturn } from '../../type/hookType';
+import { FormDataSignUp, UseSignUpReturn } from '../../types/hookType';
 
 /**
  * Custom hook for handling user sign-up functionality.

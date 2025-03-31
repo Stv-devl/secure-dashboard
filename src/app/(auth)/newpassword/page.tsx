@@ -19,7 +19,7 @@ const NewPassword = () => {
   return (
     <>
       <div className="flex flex-col gap-[20px]">
-        <h1 className="text-2xl font-bold text-blue-900">New password</h1>
+        <h1 className="text-2xl font-bold">New password</h1>
         <p>Write your new password</p>
       </div>
       <form onSubmit={handleSubmit} className="flex w-full flex-col gap-[20px]">

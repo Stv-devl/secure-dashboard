@@ -14,7 +14,7 @@ export default function AuthLayout({
       <main>
         <section className="flex h-screen w-full flex-col sm:mt-10 sm:rounded-lg">
           <div className="mt-5 flex w-full flex-col items-center  sm:mt-10">
-            <div className="flex flex-col items-start gap-10 sm:rounded-lg bg-white p-6 w-full sm:w-[476px] sm:p-10 sm:shadow-md">
+            <div className="bg-color-theme flex flex-col items-start gap-10 sm:rounded-lg p-6 w-full sm:w-[476px] sm:p-10 sm:shadow-md">
               {children}
             </div>
           </div>

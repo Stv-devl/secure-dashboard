@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
 import { twMerge } from 'tailwind-merge';
-import { ButtonComponent } from '../../type/componantsType';
+import { ButtonComponent } from '../../types/componantsType';
 
 /**
  * Reusable button component with various style options
@@ -32,10 +32,8 @@ const Button: React.FC<ButtonComponent> = ({
       disabled={disabled || false}
       className={twMerge(
         clsx(
-          color === 'empty'
-            ? 'border border-blue-900 bg-white text-blue-900 hover:bg-blue-100'
-            : 'bg-blue-700 text-white hover:bg-blue-900',
-          'flex items-center justify-center gap-1 lg:gap-2 duration-500 ease-in-out font-semibold rounded-lg w-full h-full px-3 cursor-pointer'
+          color === 'empty' ? 'btn-empty-theme' : 'btn-filled-theme ',
+          'flex items-center justify-center gap-1 lg:gap-2 duration-500 ease-in-out font-semibold rounded-lg w-full h-full px-3 cursor-pointer '
         )
       )}
     >

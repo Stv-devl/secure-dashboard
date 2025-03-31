@@ -27,7 +27,7 @@ const Login = () => {
   return (
     <>
       <div className="flex flex-col gap-[24px]">
-        <h1 className="text-2xl font-bold text-blue-900">Login</h1>
+        <h1 className="text-2xl font-bold">Login</h1>
         <p>Add your details below to get back into the app</p>
       </div>
       <form onSubmit={handleSubmit} className="flex w-full flex-col gap-[20px]">
@@ -59,7 +59,7 @@ const Login = () => {
             />
             <Link
               href="/getlink"
-              className="text-sm cursor-pointer absolute top-0.5 right-0 font-semibold text-blue-800 transition-all duration-300 hover:text-blue-500"
+              className="text-dark-blue cursor-pointer absolute top-0.5 right-0 font-semibold transition-all duration-300"
             >
               Forget your password?
             </Link>
@@ -89,7 +89,7 @@ const Login = () => {
         <p className="px-[5%] sm:px-[10%] ">
           Don&apos;t have an account?{' '}
           <Link href="/signup">
-            <span className="font-semibold text-blue-800 transition-all duration-300 hover:text-blue-500">
+            <span className="text-dark-blue font-semibold transition-all duration-300">
               Create account
             </span>
           </Link>

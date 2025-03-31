@@ -1,3 +1,3 @@
-import { FormDataNewPassword } from '@/type/hookType';
+import { FormDataNewPassword } from '@/types/hookType';
 
 export const postChangePassword = async (formData: FormDataNewPassword) => {};

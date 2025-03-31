@@ -20,7 +20,7 @@ const PswBackup = () => {
   return (
     <>
       <div className="flex flex-col gap-[20px]">
-        <h1 className="text-2xl font-bold text-blue-900">Recover password</h1>
+        <h1 className="text-2xl font-bold">Recover password</h1>
         <p>Enter your email to recover your password</p>
       </div>
       <form onSubmit={handleSubmit} className="flex w-full flex-col gap-[20px]">

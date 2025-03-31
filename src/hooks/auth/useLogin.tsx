@@ -2,7 +2,7 @@ import { signIn } from 'next-auth/react';
 import { FormEvent, useState } from 'react';
 import * as Yup from 'yup';
 import { loginSchema } from '../../shema/loginShema';
-import { FormDataLogin, UseLoginReturn } from '../../type/hookType';
+import { FormDataLogin, UseLoginReturn } from '../../types/hookType';
 
 /**
  * UseLogin hook that handles the login process

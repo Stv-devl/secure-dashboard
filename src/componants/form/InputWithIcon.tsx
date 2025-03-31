@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
-import { InputWithIconProps } from '../../type/componantsType';
+import { InputWithIconProps } from '../../types/componantsType';
 
 /**
  * Renders an input field with dynamic styling based on validation state.
@@ -25,22 +25,17 @@ const InputWithIcon: React.FC<InputWithIconProps> = ({
   const errorId = `error-${name}`;
 
   const inputClasses = twMerge(
-    'size-full bg-white placeholder:text-neutral-500 rounded-lg border focus:outline-none focus:border-blue-800 pl-9 sm:pl-10 focus:shadow-xs focus:shadow-blue-400',
+    'input-theme size-full rounded-lg pl-9 sm:pl-10 ',
     clsx(
       error
         ? 'border-red-500 text-red-500'
-        : 'border-neutral-500 text-neutral-400'
+        : 'border-neutral-500 text-neutral-500'
     )
-  );
-
-  const labelClasses = twMerge(
-    clsx(error && label !== 'Link' ? 'text-red-500' : 'text-neutral-500'),
-    ' w-[150px]'
   );
 
   return (
     <>
-      <label htmlFor={name} className={labelClasses}>
+      <label htmlFor={name} className="w-[150px]">
         {label}
       </label>
       <div className="h-[46px] relative w-full">
