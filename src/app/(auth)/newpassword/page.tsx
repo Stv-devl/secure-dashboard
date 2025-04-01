@@ -5,7 +5,7 @@ import Loading from '../../../componants/loading/Loading';
 import Button from '../../../componants/buttons/Button';
 import { iconsMap } from '../../../constante/iconsMap';
 import InputWithIcon from '../../../componants/form/InputWithIcon';
-import useNewPassword from '@/hooks/auth/useNewPassword';
+import useNewPassword from '@/hooks/auth/useResetPassword';
 
 /**
  * PswBackup page component that handles user authentication

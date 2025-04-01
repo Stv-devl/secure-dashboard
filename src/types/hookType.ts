@@ -36,6 +36,10 @@ export interface FormDataNewPassword {
   repeat: string;
 }
 
+export interface FormDataResetPasswordEmail {
+  email: string;
+}
+
 export interface PasswordErrorsProps {
   password: string;
   repeat: string;

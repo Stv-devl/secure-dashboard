@@ -1,13 +1,15 @@
-import { postChangePassword } from '@/service/auth/postChangePassword';
+import { postSendEmail } from '@/service/auth/postSendEmail';
 import { sendLinkSchema } from '@/shema/changePasswordShema';
+import { useRouter } from 'next/navigation';
 import React, { FormEvent, useState } from 'react';
 import * as Yup from 'yup';
 
-const usePswBackup = () => {
+const useSendEmail = () => {
   const [userEmail, setUserEmail] = useState<string>('');
   const [emailErrors, setEmailErrors] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const router = useRouter();
   /**
    * Handles input changes in the login form
    * @param {React.ChangeEvent<HTMLInputElement>} e - The change event
@@ -45,15 +47,17 @@ const usePswBackup = () => {
         { email: userEmail },
         { abortEarly: false }
       );
-      const result = await postChangePassword(userEmail);
 
-      //redirect somewhere
+      const result = await postSendEmail(userEmail);
 
       if (result?.error) {
-        setEmailErrors(result.error || 'Failed to send email');
+        setEmailErrors(result.error || 'Une erreur est survenue');
+      } else {
+        router.push('/login');
       }
     } catch (error) {
       handleError(error);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -61,4 +65,4 @@ const usePswBackup = () => {
   return { userEmail, emailErrors, isLoading, handleChange, handleSubmit };
 };
 
-export default usePswBackup;
+export default useSendEmail;

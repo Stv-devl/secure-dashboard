@@ -1,10 +1,12 @@
-import { postChangePassword } from '@/service/auth/postChangePassword';
+import { postResetPassword } from '@/service/auth/postResetPassword';
+import { postChangePassword } from '@/service/auth/postSendEmail';
 import { newPasswordSchema } from '@/shema/changePasswordShema';
 import { FormDataNewPassword, PasswordErrorsProps } from '@/types/hookType';
+import { useRouter } from 'next/navigation';
 import React, { FormEvent, useState } from 'react';
 import * as Yup from 'yup';
 
-const useNewPassword = () => {
+const useResetPassword = () => {
   const [formData, setFormData] = useState<FormDataNewPassword>({
     password: '',
     repeat: '',
@@ -17,6 +19,8 @@ const useNewPassword = () => {
     });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -55,11 +59,11 @@ const useNewPassword = () => {
     try {
       await newPasswordSchema.validate(formData, { abortEarly: false });
 
-      const result = await postChangePassword(formData);
+      const result = await postResetPassword(formData.password);
       console.log('Change password successful', result);
 
       if (result?.ok) {
-        /* router.push('/home');*/
+        router.push('/login');
       } else {
         console.error('Change password failed:', result?.error);
         setNewPasswordErrors((prev) => ({
@@ -76,4 +80,4 @@ const useNewPassword = () => {
   return { formData, newPasswordErrors, isLoading, handleChange, handleSubmit };
 };
 
-export default useNewPassword;
+export default useResetPassword;

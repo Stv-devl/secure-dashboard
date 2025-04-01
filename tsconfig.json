@@ -27,7 +27,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "types"
+    "types",
+    "test-send.ts"
   ],
   "exclude": ["node_modules"]
 }

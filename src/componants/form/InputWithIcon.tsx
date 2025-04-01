@@ -26,11 +26,7 @@ const InputWithIcon: React.FC<InputWithIconProps> = ({
 
   const inputClasses = twMerge(
     'input-theme size-full rounded-lg pl-9 sm:pl-10 ',
-    clsx(
-      error
-        ? 'border-red-500 text-red-500'
-        : 'border-neutral-500 text-neutral-500'
-    )
+    clsx(error ? 'border-red-500 text-red-500' : 'text-neutral-500')
   );
 
   return (
