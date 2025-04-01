@@ -3,8 +3,8 @@ import { prisma } from '../../prisma';
 import { corsMiddleware } from '../middleware/corsMiddleware';
 import { rateLimitMiddleware } from '../middleware/rateLimitMiddleware';
 import bcrypt from 'bcryptjs';
-import { resetPasswordSchema } from '@/shema/resetPasswordShema';
 import { NextResponse } from 'next/server';
+import { resetPasswordSchema } from '../../shema/resetPasswordShema';
 
 export async function resetPasswordHandler(req: Request) {
   try {

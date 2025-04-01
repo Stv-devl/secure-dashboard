@@ -1,17 +1,22 @@
-import * as Yup from 'yup';
+import { z } from 'zod';
+
 /**
  * Signup validation schema
  * @constant
- * @type {Yup.ObjectSchema}
+ * @type {z.ZodObject}
  */
-export const signupValidationSchema = Yup.object({
-  email: Yup.string()
-    .email('Invalid email address')
-    .required('Email is required'),
-  password: Yup.string()
-    .min(4, 'Password must be at least 4 characters')
-    .required('Password is required'),
-  repeat: Yup.string()
-    .oneOf([Yup.ref('password'), undefined], 'Passwords must match')
-    .required('Password is required'),
-});
+export const signupValidationSchema = z
+  .object({
+    email: z
+      .string()
+      .min(1, 'Email is required')
+      .email('Invalid email address'),
+    password: z.string().min(4, 'Password must be at least 4 characters'),
+    repeat: z.string(),
+  })
+  .refine((data) => data.password === data.repeat, {
+    message: 'Passwords must match',
+    path: ['repeat'],
+  });
+
+export type SignupSchemaType = z.infer<typeof signupValidationSchema>;

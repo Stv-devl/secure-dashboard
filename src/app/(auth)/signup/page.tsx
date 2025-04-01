@@ -15,71 +15,68 @@ import InputWithIcon from '../../../componants/form/InputWithIcon';
 
 const SignUp = () => {
   const {
+    register,
     handleSubmit,
-    handleChange,
+    onSubmit,
     handleGoogleSignIn,
-    formData,
-    signupErrors,
-    isLoading,
+    errors,
+    isSubmitting,
   } = useSignUp();
 
   return (
     <>
       <div className="flex flex-col gap-[24px]">
-        <h1 className="text-2xl font-bold">Create account</h1>
+        <h1 className="font-color-theme text-2xl font-bold">Create account</h1>
         <p>Let&apos;s get you started sharing your links!</p>
       </div>
       <form
-        onSubmit={handleSubmit}
-        className="flex w-full flex-col gap-[20px] "
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex w-full flex-col gap-[20px]"
       >
         <div className="flex flex-col gap-1">
           <InputWithIcon
+            registration={register('email')}
             name="email"
             label="Email address"
             placeholder="Write your email"
             type="text"
-            handleChange={handleChange}
-            value={formData.email}
-            error={signupErrors.email}
-            autoComplete={'email'}
+            autoComplete="email"
             IconComponent={iconsMap.IconEmail}
+            error={errors.email?.message || ''}
           />
         </div>
         <div className="flex flex-col gap-1">
           <InputWithIcon
+            registration={register('password')}
             name="password"
             label="Password"
             placeholder="At least 8 characters"
             type="password"
-            handleChange={handleChange}
-            value={formData.password}
-            error={signupErrors.password}
-            autoComplete={'new-password'}
+            autoComplete="new-password"
             IconComponent={iconsMap.IconPassword}
+            error={errors.password?.message || ''}
           />
         </div>
         <div className="flex flex-col gap-1">
           <InputWithIcon
+            registration={register('repeat')}
             name="repeat"
             label="Confirm password"
             placeholder="At least 8 characters"
             type="password"
-            handleChange={handleChange}
-            value={formData.repeat}
-            error={signupErrors.repeat}
-            autoComplete={'new-password'}
+            error={errors.repeat?.message || ''}
+            autoComplete="new-password"
             IconComponent={iconsMap.IconPassword}
           />
         </div>
 
-        {isLoading && <Loading />}
+        {isSubmitting && <Loading />}
         <div className="mt-4 h-[46px] w-full">
           <Button
             label={'Create a new account'}
             color={'filled'}
             type="submit"
-            disabled={isLoading}
+            disabled={isSubmitting}
           />
         </div>
         <div className="h-[46px] w-full">
@@ -88,7 +85,7 @@ const SignUp = () => {
             onClick={handleGoogleSignIn}
             color={'empty'}
             IconComponent={iconsMap.IconGoogle}
-            disabled={isLoading}
+            disabled={isSubmitting}
           />
         </div>
         <p className="px-[5%] text-center sm:px-[10%] ">

@@ -1,3 +1,5 @@
+import { UseFormRegisterReturn } from 'react-hook-form';
+
 export interface ButtonComponent {
   label: string;
   onClick?: () => void;
@@ -11,11 +13,10 @@ export interface ButtonComponent {
 export interface InputWithIconProps {
   name: string;
   type: string;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string;
   label: string;
   placeholder: string;
-  error: string;
   autoComplete: string;
   IconComponent: React.ComponentType<{ fill?: string }>;
+  error: string;
+  registration: UseFormRegisterReturn<string>;
 }

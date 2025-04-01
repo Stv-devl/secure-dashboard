@@ -5,7 +5,7 @@ import Loading from '../../../componants/loading/Loading';
 import Button from '../../../componants/buttons/Button';
 import { iconsMap } from '../../../constante/iconsMap';
 import InputWithIcon from '../../../componants/form/InputWithIcon';
-import useNewPassword from '@/hooks/auth/useResetPassword';
+import useResetPassword from '@/hooks/auth/useResetPassword';
 
 /**
  * PswBackup page component that handles user authentication
@@ -14,15 +14,19 @@ import useNewPassword from '@/hooks/auth/useResetPassword';
  */
 
 const NewPassword = () => {
-  const { handleSubmit, handleChange, formData, newPasswordErrors, isLoading } =
-    useNewPassword();
+  const { register, handleSubmit, onSubmit, errors, isSubmitting } =
+    useResetPassword();
+
   return (
     <>
       <div className="flex flex-col gap-[20px]">
-        <h1 className="text-2xl font-bold">New password</h1>
+        <h1 className="font-color-theme text-2xl font-bold">New password</h1>
         <p>Write your new password</p>
       </div>
-      <form onSubmit={handleSubmit} className="flex w-full flex-col gap-[20px]">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex w-full flex-col gap-[20px]"
+      >
         <div className="flex flex-col gap-[20px]">
           <div className="flex flex-col gap-1 relative">
             <InputWithIcon
@@ -30,11 +34,10 @@ const NewPassword = () => {
               label="Password"
               placeholder="Enter your password"
               type="password"
-              handleChange={handleChange}
-              value={formData.password}
-              error={newPasswordErrors.password}
-              autoComplete={'current-password'}
+              autoComplete="current-password"
               IconComponent={iconsMap.IconPassword}
+              error={errors.password?.message || ''}
+              registration={register('password')}
             />
           </div>
 
@@ -43,22 +46,22 @@ const NewPassword = () => {
               name="repeat"
               label="Repeat password"
               placeholder="Repeat your password"
-              type="passw   rd"
-              handleChange={handleChange}
-              value={formData.repeat}
-              error={newPasswordErrors.repeat}
-              autoComplete={'current-password'}
+              type="password"
+              autoComplete="current-password"
               IconComponent={iconsMap.IconPassword}
+              error={errors.repeat?.message || ''}
+              registration={register('repeat')}
             />
           </div>
         </div>
-        {isLoading && <Loading />}
-        <div className="h-[46px] w-full ">
+
+        {isSubmitting && <Loading />}
+        <div className="h-[46px] w-full">
           <Button
             label={'Change password'}
             color={'filled'}
             type="submit"
-            disabled={isLoading}
+            disabled={isSubmitting}
           />
         </div>
       </form>

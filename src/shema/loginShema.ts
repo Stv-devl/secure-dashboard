@@ -1,15 +1,12 @@
-import * as Yup from 'yup';
+import { z } from 'zod';
 
 /**
  * Login validation schema
  * @constant
- * @type {Yup.ObjectSchema}
+ * @type {z.ZodObject}
  */
-export const loginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('Invalid email address')
-    .required('Email is required'),
-  password: Yup.string()
-    .min(4, 'Password must be at least 4 characters')
-    .required('Password is required'),
+export const loginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(4, 'Password must be at least 4 characters'),
 });
+export type LoginSchemaType = z.infer<typeof loginSchema>;

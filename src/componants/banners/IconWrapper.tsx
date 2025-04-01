@@ -5,7 +5,7 @@ const IconWrapper = () => {
   return (
     <div className="flex items-center gap-3">
       <iconsMap.IconLogo />
-      <h2 className="font-color-theme text-xl font-semibold">Brainers</h2>
+      <h2 className="font-color-theme text-xl font-semibold">DivBrainers</h2>
     </div>
   );
 };

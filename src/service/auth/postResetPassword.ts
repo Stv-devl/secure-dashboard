@@ -4,6 +4,7 @@ export const postResetPassword = async (resetPasswordPayload: {
   password: string;
 }) => {
   try {
+    console.log('resetPasswordPayload', resetPasswordPayload);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`,
       {

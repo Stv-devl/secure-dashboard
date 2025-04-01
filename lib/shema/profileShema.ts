@@ -9,3 +9,5 @@ export const profileSchema = z.object({
   email: z.string().email('Invalid email format').max(50).optional(),
   image: z.union([z.string(), z.null()]).optional(),
 });
+
+export type ProfileSchemaType = z.infer<typeof profileSchema>;

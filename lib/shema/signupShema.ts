@@ -11,3 +11,5 @@ export const signupSchema = z.object({
   email: z.string().email().max(100),
   password: z.string().min(4).max(100),
 });
+
+export type SignupSchemaType = z.infer<typeof signupSchema>;

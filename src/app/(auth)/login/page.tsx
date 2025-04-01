@@ -16,82 +16,79 @@ import InputWithIcon from '../../../componants/form/InputWithIcon';
 
 const Login = () => {
   const {
+    register,
     handleSubmit,
-    handleChange,
+    onSubmit,
+    errors,
+    isSubmitting,
     handleGoogleSignIn,
-    formData,
-    loginErrors,
-    isLoading,
   } = useLogin();
 
   return (
     <>
       <div className="flex flex-col gap-[24px]">
-        <h1 className="text-2xl font-bold">Login</h1>
+        <h1 className="font-color-theme text-2xl font-bold">Login</h1>
         <p>Add your details below to get back into the app</p>
       </div>
-      <form onSubmit={handleSubmit} className="flex w-full flex-col gap-[20px]">
+
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex w-full flex-col gap-[20px]"
+      >
         <div className="flex flex-col gap-[20px]">
           <div className="flex flex-col gap-1">
             <InputWithIcon
+              registration={register('email')}
               name="email"
               label="Email address"
               placeholder="Write your email"
               type="text"
-              handleChange={handleChange}
-              value={formData.email}
-              error={loginErrors.email}
-              autoComplete={'email'}
+              error={errors.email?.message || ''}
+              autoComplete="email"
               IconComponent={iconsMap.IconEmail}
             />
           </div>
           <div className="flex flex-col gap-1 relative">
             <InputWithIcon
+              registration={register('password')}
               name="password"
               label="Password"
               placeholder="Enter your password"
               type="password"
-              handleChange={handleChange}
-              value={formData.password}
-              error={loginErrors.password}
-              autoComplete={'current-password'}
+              error={errors.password?.message || ''}
+              autoComplete="current-password"
               IconComponent={iconsMap.IconPassword}
             />
             <Link
-              href="/getlink"
-              className="text-dark-blue cursor-pointer absolute top-0.5 right-0 font-semibold transition-all duration-300"
+              href="/sendlink"
+              className="absolute top-0.5 right-0 text-dark-blue font-semibold"
             >
               Forget your password?
             </Link>
           </div>
         </div>
-        {loginErrors.general && (
-          <p className="text-red-500">{loginErrors.general}</p>
-        )}
-        {isLoading && <Loading />}
+        {isSubmitting && <Loading />}
         <div className="h-[46px] w-full ">
           <Button
-            label={'Login'}
-            color={'filled'}
+            label="Login"
             type="submit"
-            disabled={isLoading}
+            color="filled"
+            disabled={isSubmitting}
           />
         </div>
-        <div className="h-[46px] w-full">
+        <div className="h-[46px] w-full ">
           <Button
-            label={'Login with Google'}
+            label="Login with Google"
             onClick={handleGoogleSignIn}
-            color={'empty'}
+            color="empty"
             IconComponent={iconsMap.IconGoogle}
-            disabled={isLoading}
+            disabled={isSubmitting}
           />
         </div>
-        <p className="px-[5%] sm:px-[10%] ">
-          Don&apos;t have an account?{' '}
+        <p className="px-[5%] sm:px-[10%]">
+          Don't have an account?{' '}
           <Link href="/signup">
-            <span className="text-dark-blue font-semibold transition-all duration-300">
-              Create account
-            </span>
+            <span className="text-dark-blue font-semibold">Create account</span>
           </Link>
         </p>
       </form>

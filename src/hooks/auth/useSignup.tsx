@@ -1,132 +1,66 @@
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { FormEvent, useCallback, useState } from 'react';
-import * as Yup from 'yup';
-import { signupValidationSchema } from '../../shema/signupShema';
+import {
+  SignupSchemaType,
+  signupValidationSchema,
+} from '../../shema/signupShema';
 import postSignup from '../../service/auth/postSignup';
-import { FormDataSignUp, UseSignUpReturn } from '../../types/hookType';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
 /**
  * Custom hook for handling user sign-up functionality.
  * Manages form state, validates form data, and submits the sign-up request.
  * @returns {UseSignUpReturn} An object containing handleSubmit, handleChange, handleGoogleSignIn, formData, signupErrors, isLoading
  **/
-
-const useSignUp = (): UseSignUpReturn => {
-  const [formData, setFormData] = useState<FormDataSignUp>({
-    email: '',
-    password: '',
-    repeat: '',
-  });
-
-  const [signupErrors, setSignupErrors] = useState<FormDataSignUp>({
-    email: '',
-    password: '',
-    repeat: '',
-  });
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+const useSignUp = () => {
   const router = useRouter();
 
-  /**
-   * Handles changes to form input fields
-   * @param {React.ChangeEvent<HTMLInputElement>} e - The input change event
-   */
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-    setSignupErrors({ email: '', password: '', repeat: '' });
-  }, []);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+  } = useForm<SignupSchemaType>({
+    resolver: zodResolver(signupValidationSchema),
+  });
 
-  /**
-   * Handles validation and other errors during the signup process
-   * @param {unknown} error - The error to handle
-   */
-  const handleError = (error: unknown) => {
-    if (error instanceof Yup.ValidationError) {
-      const fieldErrors = error.inner.reduce((acc, err) => {
-        if (err.path) acc[err.path as keyof FormDataSignUp] = err.message;
-        return acc;
-      }, {} as FormDataSignUp);
-      setSignupErrors(fieldErrors);
-    } else {
-      console.error('signup error:', error);
-      setSignupErrors((prev) => ({
-        ...prev,
-        general: 'An error occur during signup',
-      }));
-    }
-  };
-
-  /**
-   * Handles the form submission for user signup
-   * @param {FormEvent<HTMLFormElement>} e - The form submission event
-   * @returns {Promise<void>}
-   */
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    setIsLoading(true);
+  const onSubmit = async (data: SignupSchemaType) => {
     try {
-      await signupValidationSchema.validate(formData, { abortEarly: false });
-
-      const newUser = await postSignup(formData.email, formData.password);
-      console.log('Signup successful', newUser);
+      await postSignup(data.email, data.password);
 
       const result = await signIn('credentials', {
         redirect: false,
-        email: formData.email,
-        password: formData.password,
+        email: data.email,
+        password: data.password,
       });
 
       if (result?.ok) {
         router.push('/home');
       } else {
-        console.error('Signup failed:', result?.error);
-        setSignupErrors((prev) => ({
-          ...prev,
-          general: 'Signup process encountered an error',
-        }));
+        setError('email', {
+          message: 'Signup process encountered an error',
+        });
       }
     } catch (error) {
-      handleError(error);
-    } finally {
-      setIsLoading(false);
+      console.error('Signup error:', error);
+      setError('email', {
+        message: 'Something went wrong. Please try again.',
+      });
     }
   };
 
-  /**
-   * Handles Google OAuth sign-in process
-   * @returns {Promise<void>}
-   */
-  const handleGoogleSignIn = async (): Promise<void> => {
-    setIsLoading(true);
-    try {
-      const result = await signIn('google', { callbackUrl: '/home' });
-      if (result?.error) {
-        setSignupErrors((prev) => ({
-          ...prev,
-          general: 'Signup with Google failed',
-        }));
-      } else {
-        router.push('/home');
-      }
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleGoogleSignIn = async () => {
+    await signIn('google', { callbackUrl: '/home' });
   };
 
   return {
+    register,
     handleSubmit,
-    handleChange,
+    onSubmit,
     handleGoogleSignIn,
-    formData,
-    signupErrors,
-    isLoading,
+    errors,
+    isSubmitting,
   };
 };
 

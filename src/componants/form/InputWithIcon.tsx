@@ -14,13 +14,12 @@ import { InputWithIconProps } from '../../types/componantsType';
 const InputWithIcon: React.FC<InputWithIconProps> = ({
   name,
   type,
-  handleChange,
-  value,
   label,
   placeholder,
-  error,
   autoComplete,
   IconComponent,
+  error,
+  registration,
 }: InputWithIconProps) => {
   const errorId = `error-${name}`;
 
@@ -41,14 +40,14 @@ const InputWithIcon: React.FC<InputWithIconProps> = ({
           </div>
         )}
         <input
-          className={inputClasses}
-          type={type}
           id={name}
-          name={name}
-          value={value || ''}
-          onChange={handleChange}
+          type={type}
           placeholder={placeholder}
           autoComplete={autoComplete}
+          className={inputClasses}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
+          {...registration}
         />
         {error && (
           <span
