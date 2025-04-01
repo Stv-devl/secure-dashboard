@@ -49,9 +49,8 @@ const useSendEmail = () => {
       );
 
       const result = await postSendEmail(userEmail);
-
       if (result?.error) {
-        setEmailErrors(result.error || 'Une erreur est survenue');
+        setEmailErrors(result.error || 'An error occurred');
       } else {
         router.push('/login');
       }

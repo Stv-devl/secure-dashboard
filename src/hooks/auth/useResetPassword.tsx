@@ -1,6 +1,6 @@
 import { postResetPassword } from '@/service/auth/postResetPassword';
-import { postChangePassword } from '@/service/auth/postSendEmail';
 import { newPasswordSchema } from '@/shema/changePasswordShema';
+import { resetPasswordSchema } from '@/shema/resetPasswordShema';
 import { FormDataNewPassword, PasswordErrorsProps } from '@/types/hookType';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useState } from 'react';
@@ -56,20 +56,47 @@ const useResetPassword = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setIsLoading(true);
+
     try {
       await newPasswordSchema.validate(formData, { abortEarly: false });
 
-      const result = await postResetPassword(formData.password);
-      console.log('Change password successful', result);
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
+      const email = urlParams.get('email');
 
-      if (result?.ok) {
-        router.push('/login');
-      } else {
-        console.error('Change password failed:', result?.error);
+      if (!token || !email) {
         setNewPasswordErrors((prev) => ({
           ...prev,
-          general: 'Change password process encountered an error',
+          general: 'Lien invalide ou incomplet',
         }));
+        setIsLoading(false);
+        return;
+      }
+
+      const parsed = resetPasswordSchema.safeParse({
+        email,
+        token,
+        password: formData.password,
+      });
+
+      if (!parsed.success) {
+        setNewPasswordErrors((prev) => ({
+          ...prev,
+          general: parsed.error.issues[0]?.message || 'Invalid data',
+        }));
+        setIsLoading(false);
+        return;
+      }
+
+      const result = await postResetPassword(parsed.data);
+
+      if (!result?.ok) {
+        setNewPasswordErrors((prev) => ({
+          ...prev,
+          general: result?.error || 'An error occurred',
+        }));
+      } else {
+        router.push('/login');
       }
     } catch (error) {
       handleError(error);

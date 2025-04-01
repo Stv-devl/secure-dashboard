@@ -8,6 +8,10 @@ import { corsMiddleware } from '../middleware/corsMiddleware';
 import { sendEmailSchema } from '../../shema/sendEmailShema';
 import { handleError } from '../../utils/errors/handleError';
 
+/**
+ * Send email handler for user registration
+ * @returns The send email handler for POST requests
+ */
 export async function sendEmailHandler(req: Request) {
   try {
     const corsResponse = corsMiddleware(req);
@@ -19,13 +23,8 @@ export async function sendEmailHandler(req: Request) {
     });
     if (rateLimitResponse) return rateLimitResponse;
 
-    const { email } = await req.json();
-
-    if (!email) {
-      return NextResponse.json({ error: 'Email required' }, { status: 400 });
-    }
-
-    const parsed = sendEmailSchema.safeParse(email);
+    const body = await req.json();
+    const parsed = sendEmailSchema.safeParse(body.email);
     if (!parsed.success) {
       return handleError(
         400,
@@ -40,13 +39,11 @@ export async function sendEmailHandler(req: Request) {
     });
 
     if (!user) {
-      return NextResponse.json({
-        message: 'If an account exists, an email has been sent.',
-      });
+      return handleError(200, 'If an account exists, an email has been sent.');
     }
 
     await prisma.verificationToken.deleteMany({
-      where: { identifier: email },
+      where: { identifier: normalizedEmail },
     });
 
     const rawToken = crypto.randomBytes(32).toString('hex');
@@ -55,18 +52,19 @@ export async function sendEmailHandler(req: Request) {
 
     await prisma.verificationToken.create({
       data: {
-        identifier: email,
+        identifier: normalizedEmail,
         token: hashedToken,
         expires,
       },
     });
 
-    const resetLink = `${process.env.NEXT_PUBLIC_ORIGIN}/reset-password?token=${rawToken}`;
-    await sendResetEmail(email, resetLink);
+    const resetLink = `${process.env.NEXT_PUBLIC_ORIGIN}/newpassword?token=${rawToken}&email=${normalizedEmail}`;
 
-    return NextResponse.json({ message: 'Email sent' });
+    await sendResetEmail(normalizedEmail, resetLink);
+
+    return NextResponse.json({ message: 'Email sent' }, { status: 200 });
   } catch (err) {
     console.error('send email', err);
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    return handleError(500, 'Server error');
   }
 }
