@@ -1,4 +1,4 @@
-import { ProfileFormData } from '@/shema/profileValidationShema';
+import { ProfileFormData } from '../../lib/shema/profileShema';
 import { FormEvent } from 'react';
 import {
   UseFormRegisterReturn,
@@ -27,6 +27,7 @@ export interface UserProfile {
   name?: string | null;
   email: string;
   image?: File | string | null;
+  imagePublicId?: string | null;
 }
 
 //--------------------------------------------//
@@ -96,7 +97,6 @@ export interface ButtonComponent {
 export interface CustomsInputProps {
   name: keyof ProfileFormData;
   type: string;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   label: string;
   placeholder: string;
   error: string;

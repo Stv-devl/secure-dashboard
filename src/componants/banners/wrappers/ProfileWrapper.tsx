@@ -11,13 +11,13 @@ import { iconsMap } from '../../../constante/iconsMap';
  */
 const ProfileWrapper = () => {
   const { user } = useUserStore();
-
   const [imageError, setImageError] = useState(false);
   const profileImage = typeof user?.image === 'string' ? user.image : '';
+
   return (
     <>
       <Link href="/profile" className="min-w-[48px]">
-        {!imageError && profileImage.length > 0 ? (
+        {!imageError && profileImage && profileImage !== '' ? (
           <Image
             src={profileImage}
             width={48}

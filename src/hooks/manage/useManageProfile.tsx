@@ -1,12 +1,15 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useUserStore } from '@/store/useUserStore';
 import { UserProfile } from '@/types/type';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateUserProfile } from '../../../lib/actions/updateUserProfile';
-import { ProfileFormData, profileSchema } from '@/shema/profileValidationShema';
+import {
+  ProfileFormData,
+  profileSchema,
+} from '../../../lib/shema/profileShema';
 
 /**
  * Custom hook for managing user profile updates
@@ -28,13 +31,13 @@ const useManageProfile = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(
     user?.image ? String(user.image) : null
   );
+
   const [profilError, setProfilError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setValue,
     reset,
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
@@ -49,7 +52,6 @@ const useManageProfile = () => {
     if (user) {
       initialProfile.current = user;
       if (user.image) setImagePreview(String(user.image));
-
       reset({
         name: user.name || '',
         email: user.email || '',

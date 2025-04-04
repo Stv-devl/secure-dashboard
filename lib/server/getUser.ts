@@ -17,6 +17,7 @@ export const getUser = async (): Promise<UserProfile> => {
       name: true,
       email: true,
       image: true,
+      imagePublicId: true,
     },
   });
 
@@ -27,5 +28,6 @@ export const getUser = async (): Promise<UserProfile> => {
     name: user.name ?? '',
     email: user.email,
     image: user.image ?? null,
+    imagePublicId: user.imagePublicId ?? null,
   };
 };
