@@ -23,9 +23,9 @@ const ThemeSwitcher = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="flex items-center gap-2 cursor-pointer focus:outline-none"
+      className="flex items-center gap-1 sm:gap-2 cursor-pointer focus:outline-none"
     >
-      <Icon className="size-4 sm:size-6 hover:scale-105 transition-transform" />
+      <Icon className="size-5 sm:size-6 hover:scale-105 transition-transform" />
     </button>
   );
 };

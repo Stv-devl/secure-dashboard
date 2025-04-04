@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
-import { InputWithIconProps } from '../../types/componantsType';
+import { InputWithIconProps } from '@/types/type';
 
 /**
  * Renders an input field with dynamic styling based on validation state.

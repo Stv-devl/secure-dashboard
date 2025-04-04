@@ -1,7 +1,7 @@
 import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, LoginSchemaType } from '@/shema/loginShema';
+import { LoginSchema, LoginSchemaType } from '@/shema/loginShema';
 
 const useLogin = () => {
   const {
@@ -10,7 +10,7 @@ const useLogin = () => {
     formState: { errors, isSubmitting },
     setError,
   } = useForm<LoginSchemaType>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(LoginSchema),
   });
 
   const onSubmit = async (data: LoginSchemaType) => {

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
 import { twMerge } from 'tailwind-merge';
-import { ButtonComponent } from '../../types/componantsType';
+import { ButtonComponent } from '@/types/type';
 
 /**
  * Reusable button component with various style options
@@ -24,21 +24,28 @@ const Button: React.FC<ButtonComponent> = ({
   disabled,
   type,
   iconColor,
+  isLoading,
 }: ButtonComponent): React.ReactElement => {
   return (
     <button
       type={type || 'button'}
       onClick={onClick}
-      disabled={disabled || false}
+      disabled={disabled || isLoading}
       className={twMerge(
         clsx(
-          color === 'empty' ? 'btn-empty-theme' : 'btn-filled-theme ',
-          'flex items-center justify-center gap-1 lg:gap-2 duration-500 ease-in-out font-semibold rounded-lg w-full h-full px-3 cursor-pointer '
+          color === 'empty' ? 'btn-empty-theme' : 'btn-filled-theme',
+          'flex items-center justify-center gap-2 duration-500 ease-in-out font-semibold rounded-lg w-full h-full px-3 cursor-pointer'
         )
       )}
     >
-      {IconComponent && <IconComponent fill={iconColor} />}
-      {label}
+      {isLoading ? (
+        <div className="h-4 w-4 rounded-full border-2 border-t-transparent border-white animate-spin"></div>
+      ) : (
+        <>
+          {IconComponent && <IconComponent fill={iconColor} />}
+          {label}
+        </>
+      )}
     </button>
   );
 };
